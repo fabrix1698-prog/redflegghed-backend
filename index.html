@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redflegghed — Sai cosa stai firmando?</title>
+<meta name="description" content="Revisione contratti in 24h, 25€. Team di consulenti legali specializzati in contrattualistica.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14140f;
+    --bg:#fbfaf7;
+    --bg-2:#f1efe8;
+    --line:#e4e1d8;
+    --accent:#ff5a1f;
+    --accent-ink:#e14e18;
+    --muted:#77746a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope',sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:28px 0;
+  }
+  .logo{font-weight:800;font-size:18px;letter-spacing:-.02em;position:relative;display:inline-block;padding-bottom:6px}
+  .logo .dot{color:var(--accent)}
+  .logo::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:6px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6' viewBox='0 0 12 6'%3E%3Cpath d='M0 4 Q3 0 6 4 T12 4' fill='none' stroke='%23ff5a1f' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:repeat-x;
+    background-size:12px 6px;
+  }
+  
+  .nav-right{display:flex;gap:12px;align-items:center}
+  .lang-toggle{
+    background:transparent;border:1px solid var(--line);color:var(--muted);
+    padding:6px 12px;font-size:12px;font-weight:600;border-radius:6px;
+    cursor:pointer;transition:all .2s ease;font-family:'Manrope',sans-serif;
+  }
+  .lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
+  .lang-toggle.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  
+  .tag{font-size:13px;color:var(--muted);font-weight:500}
+
+  .hero{padding:36px 0 30px}
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:600;color:var(--accent-ink);
+    background:#fff1ea;border:1px solid #ffd9c4;
+    padding:6px 12px;border-radius:100px;
+    margin-bottom:28px;
+  }
+  .kicker .dot2{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  h1{
+    font-weight:800;
+    font-size:clamp(34px,6.4vw,52px);
+    line-height:1.06;
+    letter-spacing:-.03em;
+    margin-bottom:20px;
+    max-width:14ch;
+  }
+  .lede{
+    font-size:clamp(16px,2.2vw,18px);
+    color:#403d34;
+    max-width:48ch;
+    margin-bottom:34px;
+    font-weight:500;
+  }
+  .lede b{color:var(--ink)}
+  .cta-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--ink);color:#fff;
+    text-decoration:none;font-weight:700;font-size:16px;
+    padding:16px 26px;border-radius:10px;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .btn:hover{background:var(--accent);transform:translateY(-2px)}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .btn .arrow{transition:transform .15s ease}
+  .btn:hover .arrow{transform:translateX(3px)}
+  .micro{font-size:13.5px;color:var(--muted)}
+
+  .alert-box{
+    background:#fff1ea;border:1px solid #ffd9c4;border-left:4px solid var(--accent);
+    padding:16px 18px;border-radius:8px;margin:20px 0;
+  }
+  .alert-box p{margin:0 0 8px 0;font-size:14.5px}
+  .alert-box p:last-child{margin-bottom:0}
+
+  .upload-box{
+    background:var(--bg-2);border:1px solid var(--line);border-radius:12px;
+    padding:22px;margin:16px 0;
+  }
+  .upload-box label{display:block;font-size:13.5px;font-weight:600;color:var(--ink);margin:14px 0 6px}
+  .upload-box label:first-child{margin-top:0}
+  .upload-box input[type="file"],
+  .upload-box input[type="email"],
+  .upload-box textarea{
+    width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:8px;
+    font-family:'Manrope',sans-serif;font-size:14.5px;background:#fff;color:var(--ink);
+    box-sizing:border-box;
+  }
+  .upload-box textarea{resize:vertical}
+  .upload-box .btn{margin-top:18px;width:100%;justify-content:center;border:none;cursor:pointer;font-family:'Manrope',sans-serif}
+  .upload-box .btn:disabled{opacity:0.6;cursor:not-allowed}
+  #upload-status{margin-top:12px;text-align:center}
+  #upload-status.error{color:#c0392b}
+  #upload-status.success{color:#1a7a3c}
+
+  .stats{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;margin:44px 0 8px;
+  }
+  .stats div{background:var(--bg);padding:22px 20px}
+  .stats .n{font-weight:800;font-size:26px;letter-spacing:-.02em;display:block;margin-bottom:4px}
+  .stats .t{font-size:13.5px;color:var(--muted);font-weight:500}
+
+  section{padding:64px 0}
+  .eyebrow2{
+    font-size:13px;font-weight:700;color:var(--accent-ink);
+    text-transform:uppercase;letter-spacing:.08em;
+    margin-bottom:14px;
+  }
+  h2{
+    font-weight:800;
+    font-size:clamp(24px,3.6vw,30px);
+    letter-spacing:-.02em;
+    margin-bottom:16px;
+    max-width:20ch;
+  }
+  .sub{color:var(--muted);font-size:16px;max-width:46ch;margin-bottom:36px;font-weight:500}
+
+  .problems{display:grid;gap:12px}
+  .problem{
+    display:flex;gap:16px;align-items:flex-start;
+    padding:20px;border:1px solid var(--line);border-radius:12px;
+    background:var(--bg);
+  }
+  .problem .ic{
+    flex:none;width:36px;height:36px;border-radius:9px;
+    background:#fff1ea;color:var(--accent-ink);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:15px;
+  }
+  .problem h3{font-size:15.5px;font-weight:700;margin-bottom:3px}
+  .problem p{font-size:14.5px;color:var(--muted)}
+
+  .steps{display:grid;gap:0}
+  .step{
+    display:grid;grid-template-columns:40px 1fr;gap:18px;
+    padding:22px 0;border-top:1px solid var(--line);
+  }
+  .step:last-child{border-bottom:1px solid var(--line)}
+  .step .num{
+    width:34px;height:34px;border-radius:9px;
+    background:var(--ink);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:14px;
+  }
+  .step h3{font-size:16.5px;font-weight:700;margin-bottom:4px}
+  .step p{font-size:14.5px;color:var(--muted)}
+
+  .list{list-style:none;display:grid;gap:0;border-top:1px solid var(--line)}
+  .list li{
+    padding:16px 0;border-bottom:1px solid var(--line);
+    display:flex;gap:14px;align-items:flex-start;
+    font-size:15.5px;color:#2c2a25;font-weight:500;
+  }
+  .list li::before{
+    content:"";flex:none;width:18px;height:18px;margin-top:2px;
+    border-radius:5px;background:var(--accent);
+  }
+
+  .who{
+    background:var(--bg-2);border-radius:16px;padding:36px 32px;
+  }
+  .who p{font-size:16px;color:#33302a;margin-bottom:14px;font-weight:500}
+  .who p:last-child{margin-bottom:0}
+  .who b{color:var(--ink)}
+
+  .close{
+    text-align:center;padding:72px 0 56px;
+    border-top:1px solid var(--line);
+  }
+  .close h2{margin:0 auto 14px;max-width:16ch}
+  .close p{color:var(--muted);max-width:42ch;margin:0 auto 32px;font-size:16px;font-weight:500}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:24px 0 44px;
+    font-size:12.5px;color:var(--muted);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  }
+  footer a{color:var(--muted);text-decoration:underline}
+
+  @media(max-width:640px){
+    .stats{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <div class="logo">Redflegghed<span class="dot">.</span></div>
+    <div class="nav-right">
+      <div class="tag" id="tagline">Revisione contratti · 24h</div>
+      <button class="lang-toggle active" data-lang="it">IT</button>
+      <button class="lang-toggle" data-lang="en">EN</button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <span class="kicker"><span class="dot2"></span><span id="kicker">Prima di firmare qualsiasi cosa</span></span>
+      <h1 id="h1">Sai davvero cosa stai per firmare?</h1>
+      <p class="lede"><span id="lede">Carica il contratto. Entro <b>24 ore</b> sai dove rischi, cosa far cambiare, se conviene firmare. Tariffa fissa: <b>25€</b>, niente sorprese.</span></p>
+      <div class="cta-row">
+        <a class="btn" href="https://paypal.me/regaloscichignu/25" id="btn1"><span id="btn1-text">Paga 25€</span> <span class="arrow">→</span></a>
+      </div>
+      
+      <div class="alert-box" id="alert-box">
+        <p id="alert-title"><strong id="alert-bold">Dopo il pagamento:</strong></p>
+        <p id="alert-text">Torna qui sotto e carica il contratto. Riceverai il responso entro 24 ore via email.</p>
+      </div>
+
+      <div class="upload-box" id="upload-box">
+        <form id="contract-form">
+          <label for="contract-file" id="upload-label">Carica il contratto (PDF o DOCX)</label>
+          <input type="file" id="contract-file" name="contract-file" accept=".pdf,.docx" required>
+
+          <label for="customer-email" id="email-label">La tua email (per ricevere il responso)</label>
+          <input type="email" id="customer-email" name="customer-email" placeholder="nome@esempio.com" required>
+
+          <label for="customer-notes" id="notes-label">Due righe sulla tua situazione (facoltativo)</label>
+          <textarea id="customer-notes" name="customer-notes" rows="3" placeholder="Es: contratto di fornitura, devo firmare entro venerdì..."></textarea>
+
+          <button type="submit" class="btn" id="upload-submit"><span id="upload-submit-text">Invia contratto</span> <span class="arrow">→</span></button>
+          <p class="micro" id="upload-status"></p>
+        </form>
+      </div>
+      
+      <p class="micro" id="micro">Dopo il pagamento, carica il contratto qui sopra. Nessun abbonamento, nessun impegno.</p>
+
+      <div class="stats">
+        <div><span class="n">24h</span><span class="t" id="stat1">dal contratto al responso</span></div>
+        <div><span class="n">25€</span><span class="t" id="stat2">tariffa fissa, sempre</span></div>
+        <div><span class="n">100%</span><span class="t" id="stat3">revisionato da consulenti legali, non da un bot</span></div>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow2" id="eyebrow1">Il problema</p>
+      <h2 id="h2">La maggior parte dei contratti si firma senza leggerli davvero.</h2>
+      <p class="sub" id="sub1">Non per pigrizia — perché sono scritti per non farsi capire. Ed è lì che si perdono soldi, tempo e margine di trattativa.</p>
+      <div class="problems">
+        <div class="problem"><span class="ic">€</span><div><h3 id="p1-h">Penali nascoste senza preavviso</h3><p id="p1-p">Una clausola su cento parole che ti costa il triplo se sfori una scadenza.</p></div></div>
+        <div class="problem"><span class="ic">⏱</span><div><h3 id="p2-h">Un avvocato a ore costa in media 150€ solo per aprire il file</h3><p id="p2-p">E aspetti giorni per un parere che spesso arriva quando hai già firmato.</p></div></div>
+        <div class="problem"><span class="ic">⚠</span><div><h3 id="p3-h">Rinnovi automatici, esclusive, foro competente lontano</h3><p id="p3-p">Dettagli che sembrano di forma e invece ti legano per anni.</p></div></div>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow2" id="eyebrow2">Come funziona</p>
+      <h2 id="h3">Tre passaggi. Zero burocrazia.</h2>
+      <div class="steps">
+        <div class="step"><span class="num">1</span><div><h3 id="step1-h">Invii il contratto via email</h3><p id="step1-p">PDF o Word, più due righe su chi sei e cosa stai per firmare.</p></div></div>
+        <div class="step"><span class="num">2</span><div><h3 id="step2-h">Il nostro team lo esamina riga per riga</h3><p id="step2-p">Cerchiamo squilibri, penali, clausole che ti espongono. Con esperienza in diritto commerciale e M&A.</p></div></div>
+        <div class="step"><span class="num">3</span><div><h3 id="step3-h">Paghi 25€ e ricevi il responso</h3><p id="step3-p">Documento chiaro, in italiano corrente. Pagamento first, poi la revisione entro 24 ore.</p></div></div>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow2" id="eyebrow3">Cosa ricevi</p>
+      <h2 id="h4">Un documento che puoi usare subito, non un parere accademico.</h2>
+      <ul class="list">
+        <li id="list1">Ogni clausola rischiosa, evidenziata e spiegata senza legalese.</li>
+        <li id="list2">Le modifiche da chiedere prima di firmare — frasi pronte da inoltrare.</li>
+        <li id="list3">Cosa negoziare e cosa invece è standard e puoi lasciar correre.</li>
+        <li id="list4">Un verdetto netto: firma così, firma con modifiche, o non firmare.</li>
+      </ul>
+    </section>
+
+    <section>
+      <p class="eyebrow2" id="eyebrow4">Per chi è</p>
+      <div class="who">
+        <p id="who1"><b>Freelance, partite IVA, piccole imprese e privati.</b> Che sia un contratto di fornitura, collaborazione, affitto commerciale o di locazione, un incarico o un accordo tra privati — devi decidere in fretta se firmare.</p>
+        <p id="who2">Qui non aspetti giorni e non paghi centinaia di euro per un parere. Paghi 25€, ricevi in 24 ore, firmi sapendo esattamente cosa hai davanti.</p>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow2" id="eyebrow5">Chi siamo</p>
+      <h2 id="h5">Un team di consulenti legali specializzati in contrattualistica.</h2>
+      <p class="sub" id="sub2">Ci occupiamo di contrattualistica ogni giorno: revisione, redazione e negoziazione di accordi commerciali e privati. Non siamo abilitati all'esercizio della professione forense e questo servizio non costituisce patrocinio legale, parere pro veritate né consulenza giudiziale — è una revisione tecnica del testo, pensata per chi deve firmare in fretta e vuole sapere dove sta mettendo la firma.</p>
+    </section>
+
+    <section class="close">
+      <h2 id="h6">Hai un contratto da firmare questa settimana?</h2>
+      <p id="close-p">Inviacelo prima di firmare, non dopo. Ricevi risposta entro 24 ore.</p>
+      <a class="btn" href="https://paypal.me/regaloscichignu/25" id="btn2"><span id="btn2-text">Paga 25€</span> <span class="arrow">→</span></a>
+    </section>
+  </main>
+
+  <footer>
+    <span>Redflegghed · Revisione contratti · Team di consulenti legali</span>
+    <span><a href="privacy-policy.html">Privacy</a> · <a href="terms-of-service.html">Termini</a> · Non abilitati all'esercizio della professione forense.</span>
+  </footer>
+
+</div>
+
+<script>
+const content = {
+  it: {
+    tagline: "Revisione contratti · 24h",
+    kicker: "Prima di firmare qualsiasi cosa",
+    h1: "Sai davvero cosa stai per firmare?",
+    lede: "Carica il contratto. Entro <b>24 ore</b> sai dove rischi, cosa far cambiare, se conviene firmare. Tariffa fissa: <b>25€</b>, niente sorprese.",
+    btn1: "Paga 25€",
+    micro: "Dopo il pagamento, riceverai le istruzioni per inviare il contratto. Nessun abbonamento, nessun impegno.",
+    alertbold: "Dopo il pagamento:",
+    alerttext: "Riceverai una conferma da PayPal. Poi scrivi a <strong>fa-brix@live.it</strong> allegando il contratto e una breve descrizione della tua situazione. Ti invieremo il responso entro 24 ore.",
+    stat1: "dal contratto al responso",
+    stat2: "tariffa fissa, sempre",
+    stat3: "revisionato da consulenti legali, non da un bot",
+    eyebrow1: "Il problema",
+    h2: "La maggior parte dei contratti si firma senza leggerli davvero.",
+    sub1: "Non per pigrizia — perché sono scritti per non farsi capire. Ed è lì che si perdono soldi, tempo e margine di trattativa.",
+    p1h: "Penali nascoste senza preavviso",
+    p1p: "Una clausola su cento parole che ti costa il triplo se sfori una scadenza.",
+    p2h: "Un avvocato a ore costa in media 150€ solo per aprire il file",
+    p2p: "E aspetti giorni per un parere che spesso arriva quando hai già firmato.",
+    p3h: "Rinnovi automatici, esclusive, foro competente lontano",
+    p3p: "Dettagli che sembrano di forma e invece ti legano per anni.",
+    eyebrow2: "Come funziona",
+    h3: "Tre passaggi. Zero burocrazia.",
+    step1h: "Invii il contratto via email",
+    step1p: "PDF o Word, più due righe su chi sei e cosa stai per firmare.",
+    step2h: "Il nostro team lo esamina riga per riga",
+    step2p: "Cerchiamo squilibri, penali, clausole che ti espongono. Con esperienza in diritto commerciale e M&A.",
+    step3h: "Paghi 25€ e ricevi il responso",
+    step3p: "Documento chiaro, in italiano corrente. Pagamento first, poi la revisione entro 24 ore.",
+    eyebrow3: "Cosa ricevi",
+    h4: "Un documento che puoi usare subito, non un parere accademico.",
+    list1: "Ogni clausola rischiosa, evidenziata e spiegata senza legalese.",
+    list2: "Le modifiche da chiedere prima di firmare — frasi pronte da inoltrare.",
+    list3: "Cosa negoziare e cosa invece è standard e puoi lasciar correre.",
+    list4: "Un verdetto netto: firma così, firma con modifiche, o non firmare.",
+    eyebrow4: "Per chi è",
+    who1: "<b>Freelance, partite IVA, piccole imprese e privati.</b> Che sia un contratto di fornitura, collaborazione, affitto commerciale o di locazione, un incarico o un accordo tra privati — devi decidere in fretta se firmare.",
+    who2: "Qui non aspetti giorni e non paghi centinaia di euro per un parere. Paghi 25€, ricevi in 24 ore, firmi sapendo esattamente cosa hai davanti.",
+    eyebrow5: "Chi siamo",
+    h5: "Un team di consulenti legali specializzati in contrattualistica.",
+    sub2: "Ci occupiamo di contrattualistica ogni giorno: revisione, redazione e negoziazione di accordi commerciali e privati. Non siamo abilitati all'esercizio della professione forense e questo servizio non costituisce patrocinio legale, parere pro veritate né consulenza giudiziale — è una revisione tecnica del testo, pensata per chi deve firmare in fretta e vuole sapere dove sta mettendo la firma.",
+    h6: "Hai un contratto da firmare questa settimana?",
+    closep: "Inviacelo prima di firmare, non dopo. Ricevi risposta entro 24 ore."
+  },
+  en: {
+    tagline: "Contract review · 24h",
+    kicker: "Before you sign anything",
+    h1: "Do you really know what you're about to sign?",
+    lede: "Upload your contract. Within <b>24 hours</b> you'll know where the risks are, what to change, and whether it's worth signing. Fixed price: <b>€25</b>, no surprises.",
+    btn1: "Pay €25",
+    micro: "After payment, you'll receive instructions to send your contract. No subscription, no commitment.",
+    alertbold: "After payment:",
+    alerttext: "You'll receive a confirmation from PayPal. Then write to <strong>fa-brix@live.it</strong> attaching your contract and a brief description of your situation. We'll send you the review within 24 hours.",
+    stat1: "from contract to review",
+    stat2: "fixed price, always",
+    stat3: "reviewed by legal consultants, not a bot",
+    eyebrow1: "The problem",
+    h2: "Most contracts are signed without actually being read.",
+    sub1: "Not out of laziness — because they're written to be obscure. That's where you lose money, time, and negotiation leverage.",
+    p1h: "Hidden penalties with no warning",
+    p1p: "One clause in a hundred words that costs you triple if you miss a deadline.",
+    p2h: "A lawyer typically charges €150+ just to open the file",
+    p2p: "And you wait days for advice that often arrives after you've already signed.",
+    p3h: "Auto-renewals, exclusivity clauses, unfamiliar jurisdiction",
+    p3p: "Details that seem minor but can tie you up for years.",
+    eyebrow2: "How it works",
+    h3: "Three steps. Zero bureaucracy.",
+    step1h: "You send your contract via email",
+    step1p: "PDF or Word, plus a few lines about who you are and what you're about to sign.",
+    step2h: "Our team reviews it line by line",
+    step2p: "We identify imbalances, penalties, and risky clauses. With experience in commercial law and M&A.",
+    step3h: "You pay €25 and get the review",
+    step3p: "Clear document, plain language. Payment first, review within 24 hours.",
+    eyebrow3: "What you get",
+    h4: "A document you can use right away, not academic legal jargon.",
+    list1: "Every risky clause highlighted and explained without legal-speak.",
+    list2: "Suggested changes to ask for before signing — ready-to-use phrases included.",
+    list3: "What to negotiate and what's standard market terms you can accept.",
+    list4: "Clear verdict: sign as-is, sign with modifications, or don't sign.",
+    eyebrow4: "Who it's for",
+    who1: "<b>Freelancers, business owners, SMBs, and individuals.</b> Whether it's a supply contract, collaboration agreement, commercial lease, residential lease, service agreement, or private deal — you need to decide quickly whether to sign.",
+    who2: "Here you don't wait days and don't pay hundreds for advice. You pay €25, get a response in 24 hours, and sign knowing exactly what you're dealing with.",
+    eyebrow5: "Who we are",
+    h5: "A team of legal consultants specialized in contract law.",
+    sub2: "We work with contracts every day: reviewing, drafting, and negotiating commercial and private agreements. We're not authorized to provide forensic legal services, and this service does not constitute legal representation, formal legal advice, or court preparation — it's a technical text review designed for people who need to sign quickly and want to know exactly what they're agreeing to.",
+    h6: "Have a contract to sign this week?",
+    closep: "Send it before signing, not after. You'll get a response within 24 hours."
+  }
+};
+
+function setLanguage(lang) {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-toggle').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.lang === lang) btn.classList.add('active');
+  });
+  
+  Object.keys(content[lang]).forEach(key => {
+    const el = document.getElementById(key);
+    if (el) el.innerHTML = content[lang][key];
+  });
+  
+  // Update alert box specifically
+  const alertBold = document.getElementById('alert-bold');
+  const alertText = document.getElementById('alert-text');
+  if (alertBold) alertBold.innerHTML = content[lang]['alertbold'];
+  if (alertText) alertText.innerHTML = content[lang]['alerttext'];
+  
+  localStorage.setItem('redflegghed-lang', lang);
+}
+
+document.querySelectorAll('.lang-toggle').forEach(btn => {
+  btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+});
+
+const savedLang = localStorage.getItem('redflegghed-lang') || 'it';
+setLanguage(savedLang);
+
+// --- Gestione invio contratto ---
+const contractForm = document.getElementById('contract-form');
+if (contractForm) {
+  contractForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const fileInput = document.getElementById('contract-file');
+    const emailInput = document.getElementById('customer-email');
+    const notesInput = document.getElementById('customer-notes');
+    const statusEl = document.getElementById('upload-status');
+    const submitBtn = document.getElementById('upload-submit');
+    const submitText = document.getElementById('upload-submit-text');
+
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    // Limite dimensione file: 8MB (limite pratico per le function)
+    if (file.size > 8 * 1024 * 1024) {
+      statusEl.textContent = 'Il file è troppo grande (max 8MB).';
+      statusEl.className = 'error';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitText.textContent = 'Invio in corso...';
+    statusEl.textContent = '';
+    statusEl.className = '';
+
+    try {
+      const fileBase64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      const response = await fetch('/.netlify/functions/process-contract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fileBase64,
+          fileName: file.name,
+          customerEmail: emailInput.value,
+          customerNotes: notesInput.value
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Errore durante l\'invio.');
+      }
+
+      statusEl.textContent = 'Contratto ricevuto. Riceverai il responso entro 24 ore.';
+      statusEl.className = 'success';
+      contractForm.reset();
+    } catch (err) {
+      statusEl.textContent = 'Errore: ' + err.message + ' Riprova o scrivi a fa-brix@live.it.';
+      statusEl.className = 'error';
+    } finally {
+      submitBtn.disabled = false;
+      submitText.textContent = 'Invia contratto';
+    }
+  });
+}
+</script>
+</body>
+</html>
