@@ -95,17 +95,17 @@
   .btn:hover .arrow{transform:translateX(3px)}
   .micro{font-size:13.5px;color:var(--muted)}
 
-  .alert-box{
-    background:#fff1ea;border:1px solid #ffd9c4;border-left:4px solid var(--accent);
-    padding:16px 18px;border-radius:8px;margin:20px 0;
-  }
-  .alert-box p{margin:0 0 8px 0;font-size:14.5px}
-  .alert-box p:last-child{margin-bottom:0}
-
   .upload-box{
     background:var(--bg-2);border:1px solid var(--line);border-radius:12px;
     padding:22px;margin:16px 0;
   }
+  .confirm-box{
+    background:#fff1ea;border:1px solid #ffd9c4;border-left:4px solid var(--accent);
+    padding:18px;border-radius:8px;margin:16px 0;text-align:center;
+  }
+  .confirm-box p{margin:0 0 12px 0;font-size:15px;font-weight:600;color:var(--ink)}
+  .btn-secondary{background:var(--accent);width:100%;justify-content:center;border:none;cursor:pointer;font-family:'Manrope',sans-serif}
+  .btn-secondary:hover{background:var(--accent-ink)}
   .upload-box label{display:block;font-size:13.5px;font-weight:600;color:var(--ink);margin:14px 0 6px}
   .upload-box label:first-child{margin-top:0}
   .upload-box input[type="file"],
@@ -233,16 +233,16 @@
       <span class="kicker"><span class="dot2"></span><span id="kicker">Prima di firmare qualsiasi cosa</span></span>
       <h1 id="h1">Sai davvero cosa stai per firmare?</h1>
       <p class="lede"><span id="lede">Carica il contratto. Entro <b>24 ore</b> sai dove rischi, cosa far cambiare, se conviene firmare. Tariffa fissa: <b>25€</b>, niente sorprese.</span></p>
-      <div class="cta-row">
-        <a class="btn" href="https://paypal.me/regaloscichignu/25" id="btn1"><span id="btn1-text">Paga 25€</span> <span class="arrow">→</span></a>
-      </div>
-      
-      <div class="alert-box" id="alert-box">
-        <p id="alert-title"><strong id="alert-bold">Dopo il pagamento:</strong></p>
-        <p id="alert-text">Torna qui sotto e carica il contratto. Riceverai il responso entro 24 ore via email.</p>
+      <div class="cta-row" id="pay-step">
+        <a class="btn" href="https://paypal.me/redflegghed/25" id="btn1" target="_blank" rel="noopener"><span id="btn1-text">Paga 25€</span> <span class="arrow">→</span></a>
       </div>
 
-      <div class="upload-box" id="upload-box">
+      <div class="confirm-box" id="confirm-box" style="display:none">
+        <p id="confirm-text">Hai completato il pagamento su PayPal?</p>
+        <button type="button" class="btn btn-secondary" id="confirm-paid-btn">Ho pagato, continua <span class="arrow">→</span></button>
+      </div>
+
+      <div class="upload-box" id="upload-box" style="display:none">
         <form id="contract-form">
           <label for="contract-file" id="upload-label">Carica il contratto (PDF o DOCX)</label>
           <input type="file" id="contract-file" name="contract-file" accept=".pdf,.docx" required>
@@ -257,8 +257,6 @@
           <p class="micro" id="upload-status"></p>
         </form>
       </div>
-      
-      <p class="micro" id="micro">Dopo il pagamento, carica il contratto qui sopra. Nessun abbonamento, nessun impegno.</p>
 
       <div class="stats">
         <div><span class="n">24h</span><span class="t" id="stat1">dal contratto al responso</span></div>
@@ -316,7 +314,7 @@
     <section class="close">
       <h2 id="h6">Hai un contratto da firmare questa settimana?</h2>
       <p id="close-p">Inviacelo prima di firmare, non dopo. Ricevi risposta entro 24 ore.</p>
-      <a class="btn" href="https://paypal.me/regaloscichignu/25" id="btn2"><span id="btn2-text">Paga 25€</span> <span class="arrow">→</span></a>
+      <a class="btn" href="#pay-step" id="btn2"><span id="btn2-text">Paga 25€</span> <span class="arrow">→</span></a>
     </section>
   </main>
 
@@ -337,7 +335,9 @@ const content = {
     btn1: "Paga 25€",
     micro: "Dopo il pagamento, riceverai le istruzioni per inviare il contratto. Nessun abbonamento, nessun impegno.",
     alertbold: "Dopo il pagamento:",
-    alerttext: "Riceverai una conferma da PayPal. Poi scrivi a <strong>fa-brix@live.it</strong> allegando il contratto e una breve descrizione della tua situazione. Ti invieremo il responso entro 24 ore.",
+    alerttext: "Torna qui e carica il contratto.",
+    confirmtext: "Hai completato il pagamento su PayPal?",
+    confirmbtn: "Ho pagato, continua",
     stat1: "dal contratto al responso",
     stat2: "tariffa fissa, sempre",
     stat3: "revisionato da consulenti legali, non da un bot",
@@ -381,7 +381,9 @@ const content = {
     btn1: "Pay €25",
     micro: "After payment, you'll receive instructions to send your contract. No subscription, no commitment.",
     alertbold: "After payment:",
-    alerttext: "You'll receive a confirmation from PayPal. Then write to <strong>fa-brix@live.it</strong> attaching your contract and a brief description of your situation. We'll send you the review within 24 hours.",
+    alerttext: "Come back here and upload your contract.",
+    confirmtext: "Have you completed the PayPal payment?",
+    confirmbtn: "I've paid, continue",
     stat1: "from contract to review",
     stat2: "fixed price, always",
     stat3: "reviewed by legal consultants, not a bot",
@@ -432,10 +434,10 @@ function setLanguage(lang) {
   });
   
   // Update alert box specifically
-  const alertBold = document.getElementById('alert-bold');
-  const alertText = document.getElementById('alert-text');
-  if (alertBold) alertBold.innerHTML = content[lang]['alertbold'];
-  if (alertText) alertText.innerHTML = content[lang]['alerttext'];
+  const confirmTextEl = document.getElementById('confirm-text');
+  const confirmBtnEl = document.getElementById('confirm-paid-btn');
+  if (confirmTextEl) confirmTextEl.innerHTML = content[lang]['confirmtext'];
+  if (confirmBtnEl) confirmBtnEl.innerHTML = content[lang]['confirmbtn'] + ' <span class="arrow">→</span>';
   
   localStorage.setItem('redflegghed-lang', lang);
 }
@@ -448,6 +450,29 @@ const savedLang = localStorage.getItem('redflegghed-lang') || 'it';
 setLanguage(savedLang);
 
 // --- Gestione invio contratto ---
+// --- Sblocco progressivo: Paga -> Ho pagato -> Form ---
+const btn1 = document.getElementById('btn1');
+const confirmBox = document.getElementById('confirm-box');
+const confirmPaidBtn = document.getElementById('confirm-paid-btn');
+const uploadBox = document.getElementById('upload-box');
+
+if (btn1 && confirmBox) {
+  btn1.addEventListener('click', () => {
+    // Dopo aver cliccato "Paga", mostriamo il passo di conferma.
+    // Il link apre PayPal in un'altra scheda; questa resta qui.
+    confirmBox.style.display = 'block';
+    confirmBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+
+if (confirmPaidBtn && uploadBox) {
+  confirmPaidBtn.addEventListener('click', () => {
+    confirmBox.style.display = 'none';
+    uploadBox.style.display = 'block';
+    uploadBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+
 const contractForm = document.getElementById('contract-form');
 if (contractForm) {
   contractForm.addEventListener('submit', async (e) => {
