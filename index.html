@@ -508,7 +508,7 @@ if (contractForm) {
         reader.readAsDataURL(file);
       });
 
-      const response = await fetch('/.netlify/functions/process-contract', {
+      const response = await fetch('/.netlify/functions/process-contract-background', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -519,10 +519,10 @@ if (contractForm) {
         })
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Errore durante l\'invio.');
+      // Le funzioni "background" di Netlify rispondono subito con 202,
+      // senza attendere che l'elaborazione finisca: non c'è un corpo JSON da leggere qui.
+      if (!response.ok && response.status !== 202) {
+        throw new Error('Errore durante l\'invio del contratto.');
       }
 
       statusEl.textContent = 'Contratto ricevuto. Riceverai il responso entro 24 ore.';
