@@ -22,13 +22,15 @@ exports.handler = async function (event) {
     await sgMail.send({
       to: process.env.OWNER_EMAIL,
       from: process.env.SENDER_EMAIL,
-      subject: `Nuovo contratto ricevuto — ${fileName}`,
+      replyTo: customerEmail || process.env.SENDER_EMAIL,
+      subject: `Nuovo contratto — ${customerEmail || 'email non fornita'} — ${fileName}`,
       text:
         `Nuovo contratto ricevuto su Redflegghed.\n\n` +
         `File: ${fileName}\n` +
         `Email cliente: ${customerEmail || 'non fornita'}\n` +
         `Note cliente: ${customerNotes || 'nessuna'}\n\n` +
-        `Il contratto è allegato a questa email.`,
+        `Il contratto è allegato a questa email.\n` +
+        `Per rispondere al cliente, usa direttamente "Rispondi" su questa email.`,
       attachments: [
         {
           content: fileBase64,
